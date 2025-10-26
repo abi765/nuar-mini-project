@@ -1,0 +1,114 @@
+{
+  "project_name": "NUAR Mini - Stockport Infrastructure Data",
+  "version": "1.0.0",
+  "focus_area": "single_council",
+  
+  "stockport": {
+    "name": "Stockport",
+    "council": "Stockport Metropolitan Borough Council",
+    "council_code": "E08000007",
+    "region": "Greater Manchester",
+    "country": "England",
+    
+    "bounding_box": {
+      "south": 53.35,
+      "west": -2.20,
+      "north": 53.45,
+      "east": -2.05,
+      "description": "Full Stockport Metropolitan Borough area"
+    },
+    
+    "center": {
+      "lat": 53.40,
+      "lon": -2.15,
+      "description": "Stockport town centre"
+    },
+    
+    "area_km2": 126,
+    "population_estimate": 295243,
+    
+    "sample_postcodes": [
+      "SK1 1EB",
+      "SK2 5DH", 
+      "SK3 0SA",
+      "SK4 1AA",
+      "SK8 3AU"
+    ],
+    
+    "major_areas": [
+      "Stockport Town Centre",
+      "Cheadle",
+      "Gatley",
+      "Heaton Moor",
+      "Heaton Chapel",
+      "Edgeley",
+      "Reddish",
+      "Marple"
+    ],
+    
+    "infrastructure_focus": [
+      "manholes",
+      "pipelines",
+      "power_cables",
+      "telecom_cables",
+      "ducts"
+    ]
+  },
+  
+  "coordinate_systems": {
+    "source": {
+      "epsg": 4326,
+      "name": "WGS84",
+      "description": "GPS coordinates from APIs"
+    },
+    "target": {
+      "epsg": 27700,
+      "name": "British National Grid",
+      "description": "UK standard coordinate system"
+    }
+  },
+  
+  "data_sources": {
+    "overpass_api": {
+      "endpoint": "https://overpass-api.de/api/interpreter",
+      "timeout": 90,
+      "enabled": true,
+      "expected_elements": 500
+    },
+    "uk_police_api": {
+      "base_url": "https://data.police.uk/api",
+      "timeout": 30,
+      "enabled": true,
+      "expected_records": 100
+    },
+    "openweathermap_api": {
+      "base_url": "https://api.openweathermap.org/data/2.5",
+      "timeout": 30,
+      "enabled": true,
+      "requires_key": true
+    },
+    "postcodes_io": {
+      "base_url": "https://api.postcodes.io",
+      "timeout": 30,
+      "enabled": true,
+      "sample_postcodes": 5
+    }
+  },
+  
+  "future_expansion": {
+    "enabled": false,
+    "additional_councils": [
+      {
+        "name": "Manchester",
+        "council_code": "E08000003",
+        "priority": 2
+      },
+      {
+        "name": "Trafford",
+        "council_code": "E08000009",
+        "priority": 3
+      }
+    ],
+    "note": "Can be enabled later to expand to multiple councils"
+  }
+}

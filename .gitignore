@@ -1,44 +1,34 @@
+# Data files (too large for Git, regenerate in Databricks)
+data/bronze/
+data/silver/
+data/gold/
+data/sample/stockport/
+
+# Keep sample API test results
+!data/sample/api_test_results.json
+
 # Python
 __pycache__/
-*.py[cod]
-*$py.class
-*.so
-.Python
+*.pyc
+*.pyo
+*.pyd
 venv/
 env/
 *.egg-info/
-
-# Environment variables
-.env
-.env.local
-
-# Databricks
-.databricks/
-*.dbc
-
-# Data files
-data/raw/
-data/processed/
-*.parquet
-*.delta
+.pytest_cache/
 
 # Secrets
-config/api_keys.json
+.env
 *.key
-
-# IDE
-.vscode/
-.idea/
-*.swp
+*.pem
 
 # OS
 .DS_Store
-Thumbs.db
+.vscode/
+.idea/
 
-# Logs
-logs/
-*.log
+# Jupyter
+.ipynb_checkpoints/
 
-# Testing
-.pytest_cache/
-.coverage
+# Parquet files
+*.parquet

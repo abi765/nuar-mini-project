@@ -1,47 +1,112 @@
 # 🏙️ NUAR Mini - Infrastructure Data Hub
 
-Medallion architecture pipeline for UK infrastructure data from multiple APIs.
+Multi-source data pipeline using Medallion Architecture for UK infrastructure analysis.
 
-## Quick Start
+## 🎯 Project Overview
 
-1. Install dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
+Integrates data from 4 APIs to analyze UK infrastructure across 3 UK regions:
+- Central London
+- Manchester Centre  
+- Birmingham Centre
 
-2. Set up environment variables:
-   ```bash
-   cp .env.example .env
-   # Edit .env with your API keys
-   ```
+**Architecture**: Bronze (Parquet) → Silver (Delta) → Gold (Optimized Delta)
 
-3. Test APIs:
-   ```bash
-   python notebooks/00_test_all_apis.py
-   ```
+## 🔌 Data Sources
 
-## Project Structure
+1. **Overpass API** - Infrastructure (pipelines, cables, manholes)
+2. **UK Police API** - Crime data
+3. **OpenWeatherMap** - Weather data (requires free API key)
+4. **Postcodes.io** - Geo lookups
 
+## 🚀 Quick Start
+
+### Setup
+```bash
+# Create virtual environment
+python3 -m venv venv
+source venv/bin/activate
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Configure API key
+cp .env.example .env
+# Edit .env and add your OpenWeatherMap API key
 ```
-nuar-mini-project/
-├── notebooks/          # Main workflow notebooks
-├── config/            # Configuration files
-├── src/               # Reusable Python modules
-│   ├── bronze/       # Raw data ingestion
-│   ├── silver/       # Data cleaning
-│   ├── gold/         # Analytics
-│   └── utils/        # Helper functions
-├── tests/            # Unit tests
-└── data/             # Local data storage
+
+### Test APIs
+```bash
+python notebooks/00_test_all_apis.py
 ```
 
-## APIs Used
+Expected: ✅ All 4 APIs successful
 
-- Overpass API (Infrastructure)
-- UK Police API (Crime Data)
-- OpenWeatherMap (Weather)
-- Postcodes.io (Geo lookups)
+## 📁 Project Structure
 
-## Architecture
+- `notebooks/` - Databricks workflow notebooks
+- `scripts/` - Standalone Python scripts
+- `config/` - Configuration files
+- `src/` - Reusable Python modules
+- `tests/` - Unit tests
+- `data/` - Local data storage
 
-Bronze (Parquet) → Silver (Delta) → Gold (Optimized Delta)
+## 🎓 Tech Stack
+
+- **Platform**: Databricks
+- **Storage**: Delta Lake
+- **Processing**: PySpark
+- **Language**: Python + SQL
+- **Version Control**: Git + GitHub
+
+## 🗺️ Regions
+
+| Region | Area | Expected Data |
+|--------|------|---------------|
+| Central London | 25 km² | ~8,000 elements |
+| Manchester Centre | 16 km² | ~5,000 elements |
+| Birmingham Centre | 16 km² | ~5,000 elements |
+
+## 📊 Pipeline Layers
+
+### 🥉 Bronze Layer
+- Raw API responses
+- Parquet format in Delta Lake
+- Partitioned by date & region
+
+### 🥈 Silver Layer
+- Cleaned & validated data
+- Coordinate transformation (WGS84 → British National Grid)
+- Delta tables with enforced schemas
+
+### 🥇 Gold Layer
+- Aggregated analytics
+- Cross-source correlations
+- Optimized for BI tools
+
+## 🔗 Next Steps
+
+1. ✅ Test APIs locally (DONE!)
+2. Push to GitHub
+3. Connect Databricks Repos
+4. Build Bronze layer
+5. Build Silver layer
+6. Build Gold layer
+7. Create dashboards
+
+## 🆘 Troubleshooting
+
+**API Test Fails?**
+- Check `.env` has OPENWEATHER_API_KEY
+- Verify internet connection
+- Activate virtual environment
+
+**Import Errors?**
+```bash
+source venv/bin/activate
+pip install -r requirements.txt
+```
+
+---
+
+**Last Updated**: 2025-10-26  
+**Status**: APIs Tested ✅ | Ready for Bronze Layer

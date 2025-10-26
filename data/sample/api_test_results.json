@@ -1,5 +1,5 @@
 {
-  "timestamp": "2025-10-26T01:32:05.816715",
+  "timestamp": "2025-10-26T13:19:50.631410",
   "test_region": {
     "name": "Manchester City Centre",
     "lat": 53.48,
@@ -23,7 +23,7 @@
     },
     "weather": {
       "status": "success",
-      "temp": 4.57
+      "temp": 8.4
     },
     "postcodes": {
       "status": "success",

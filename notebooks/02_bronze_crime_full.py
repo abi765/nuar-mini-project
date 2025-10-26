@@ -1,0 +1,245 @@
+"""
+Bronze Layer: Full Crime Data Ingestion for Stockport
+Collects crime data using grid-based coverage from UK Police API
+"""
+
+import sys
+import os
+import json
+from pathlib import Path
+from datetime import datetime
+
+# Add project root to path
+project_root = Path(__file__).parent.parent
+sys.path.append(str(project_root))
+
+# Import utilities
+from src.utils.api_client import PoliceAPIClient, add_metadata
+from src.bronze.ingestion import (
+    flatten_crime_records,
+    save_to_bronze_parquet,
+    save_to_bronze_json,
+    create_bronze_summary
+)
+
+print("="*80)
+print("🥉 BRONZE LAYER: Stockport Crime Data Ingestion")
+print("="*80)
+print(f"📅 Started: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
+
+# ============================================================================
+# CONFIGURATION
+# ============================================================================
+
+# Load Stockport configuration
+with open(project_root / 'config' / 'stockport.json') as f:
+    config = json.load(f)
+
+STOCKPORT = config['stockport']
+BBOX = STOCKPORT['bounding_box']
+
+print("📍 Target Area:")
+print(f"   Name: {STOCKPORT['name']}")
+print(f"   Council: {STOCKPORT['council']}")
+print(f"   Bounding Box: {BBOX}")
+print(f"   Area: {STOCKPORT['area_km2']} km²")
+print()
+
+# Grid configuration
+GRID_SIZE = 4  # 4x4 = 16 query points for good coverage
+
+print("🔍 Query Strategy:")
+print(f"   Grid Size: {GRID_SIZE} x {GRID_SIZE} = {GRID_SIZE**2} points")
+print(f"   Coverage: Full Stockport area")
+print()
+
+# Output directories
+BRONZE_DIR = project_root / 'data' / 'bronze' / 'stockport' / 'crime'
+os.makedirs(BRONZE_DIR, exist_ok=True)
+
+print(f"💾 Output Directory: {BRONZE_DIR}")
+print()
+
+# ============================================================================
+# DATA COLLECTION
+# ============================================================================
+
+print("="*80)
+print("🔍 COLLECTING CRIME DATA")
+print("="*80)
+print()
+
+# Initialize Police API client
+client = PoliceAPIClient()
+
+# Query using grid pattern
+print(f"⏳ Querying UK Police API with {GRID_SIZE}x{GRID_SIZE} grid...")
+print(f"   (This will make {GRID_SIZE**2} API calls with 1s delay between each)")
+print()
+
+crimes = client.query_crimes_grid(BBOX, grid_size=GRID_SIZE)
+
+print()
+print(f"✅ Successfully retrieved {len(crimes)} unique crime records")
+print()
+
+if len(crimes) == 0:
+    print("⚠️  WARNING: No crime data found")
+    print("   Possible reasons:")
+    print("   - No recent crimes in this area")
+    print("   - API rate limiting")
+    print("   - Data not yet published for latest month")
+    print()
+    print("💡 This is normal - not all areas have crime data for every month")
+    
+    # Still create empty files for consistency
+    crimes = []
+
+# ============================================================================
+# ANALYZE DATA
+# ============================================================================
+
+if crimes:
+    print("="*80)
+    print("📊 DATA ANALYSIS")
+    print("="*80)
+    print()
+    
+    # Count by category
+    category_counts = {}
+    for crime in crimes:
+        category = crime.get('category', 'unknown')
+        category_counts[category] = category_counts.get(category, 0) + 1
+    
+    print("Crime categories:")
+    for category, count in sorted(category_counts.items(), key=lambda x: x[1], reverse=True):
+        print(f"   {category:30} {count:5}")
+    print()
+    
+    # Count by month
+    month_counts = {}
+    for crime in crimes:
+        month = crime.get('month', 'unknown')
+        month_counts[month] = month_counts.get(month, 0) + 1
+    
+    print("Monthly distribution:")
+    for month, count in sorted(month_counts.items(), reverse=True):
+        print(f"   {month:10} {count:5}")
+    print()
+    
+    # Check for outcome status
+    with_outcome = sum(1 for c in crimes if c.get('outcome_status'))
+    print(f"Crimes with outcome status: {with_outcome} ({with_outcome/len(crimes)*100:.1f}%)")
+    print()
+
+# ============================================================================
+# SAVE RAW DATA (JSON)
+# ============================================================================
+
+print("="*80)
+print("💾 SAVING RAW DATA")
+print("="*80)
+print()
+
+print("1️⃣  Saving raw JSON response...")
+
+# Add metadata
+crimes_with_metadata = add_metadata(
+    crimes,
+    source='uk_police_api',
+    area='stockport'
+)
+
+json_path = save_to_bronze_json(
+    crimes_with_metadata,
+    str(BRONZE_DIR / 'raw_json'),
+    'police_crimes_full'
+)
+
+if json_path:
+    print(f"   ✅ Raw JSON saved")
+else:
+    print(f"   ⚠️  Failed to save raw JSON")
+print()
+
+# ============================================================================
+# FLATTEN AND SAVE AS PARQUET
+# ============================================================================
+
+if crimes:
+    print("2️⃣  Flattening data structure...")
+    
+    flattened_data = flatten_crime_records(crimes)
+    print(f"   ✅ Flattened {len(flattened_data)} records")
+    print()
+    
+    # Add metadata columns
+    for record in flattened_data:
+        record['ingestion_timestamp'] = datetime.now().isoformat()
+        record['ingestion_date'] = datetime.now().strftime('%Y-%m-%d')
+        record['source_api'] = 'uk_police'
+        record['area'] = 'stockport'
+    
+    print("3️⃣  Saving as Parquet...")
+    
+    parquet_path = save_to_bronze_parquet(
+        flattened_data,
+        str(BRONZE_DIR / 'parquet'),
+        'crimes_stockport',
+        partition_cols=['ingestion_date', 'month', 'category']
+    )
+    
+    if parquet_path:
+        print(f"   ✅ Parquet saved (partitioned by date, month, and category)")
+    else:
+        print(f"   ⚠️  Failed to save Parquet")
+    print()
+else:
+    print("2️⃣  No data to flatten - skipping Parquet creation")
+    parquet_path = None
+    print()
+
+# ============================================================================
+# CREATE SUMMARY
+# ============================================================================
+
+print("4️⃣  Creating ingestion summary...")
+
+create_bronze_summary(
+    str(BRONZE_DIR),
+    'crime',
+    len(crimes),
+    parquet_path or json_path
+)
+
+print()
+
+# ============================================================================
+# FINAL SUMMARY
+# ============================================================================
+
+print("="*80)
+print("✅ BRONZE LAYER INGESTION COMPLETE")
+print("="*80)
+print()
+print(f"📊 Total Records: {len(crimes)}")
+print(f"💾 Data Location: {BRONZE_DIR}")
+print()
+print("📁 Files Created:")
+print(f"   1. Raw JSON: {BRONZE_DIR / 'raw_json'}")
+if crimes:
+    print(f"   2. Parquet:  {BRONZE_DIR / 'parquet'}")
+print(f"   3. Summary:  {BRONZE_DIR / '_summary_*.json'}")
+print()
+print("🎯 Next Steps:")
+if crimes:
+    print("   1. Review crime data in Parquet files")
+    print("   2. Run Silver layer transformation")
+    print("   3. Analyze crime patterns")
+else:
+    print("   1. Check back later for more recent data")
+    print("   2. Try different time periods")
+    print("   3. Consider expanding to nearby areas")
+print()
+print(f"⏱️  Completed: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+print("="*80)
