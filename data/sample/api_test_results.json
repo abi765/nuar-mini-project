@@ -1,0 +1,33 @@
+{
+  "timestamp": "2025-10-26T01:32:05.816715",
+  "test_region": {
+    "name": "Manchester City Centre",
+    "lat": 53.48,
+    "lon": -2.235,
+    "bbox": {
+      "south": 53.46,
+      "west": -2.26,
+      "north": 53.5,
+      "east": -2.21
+    },
+    "postcode": "SK8 3AU"
+  },
+  "results": {
+    "overpass": {
+      "status": "success",
+      "count": 1
+    },
+    "police": {
+      "status": "success",
+      "count": 4
+    },
+    "weather": {
+      "status": "success",
+      "temp": 4.57
+    },
+    "postcodes": {
+      "status": "success",
+      "postcode": "SK8 3AU"
+    }
+  }
+}
