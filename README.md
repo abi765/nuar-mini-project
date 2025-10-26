@@ -4,7 +4,7 @@ Multi-source data pipeline using Medallion Architecture for UK infrastructure an
 
 ## 🎯 Project Overview
 
-Integrates data from 4 APIs to analyze UK infrastructure across 3 UK regions:
+Integrates data from 4 APIs to analyze UK infrastructure:
 
 - Stockport
 
