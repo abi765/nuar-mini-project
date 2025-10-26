@@ -5,9 +5,8 @@ Multi-source data pipeline using Medallion Architecture for UK infrastructure an
 ## 🎯 Project Overview
 
 Integrates data from 4 APIs to analyze UK infrastructure across 3 UK regions:
-- Central London
-- Manchester Centre  
-- Birmingham Centre
+
+- Stockport
 
 **Architecture**: Bronze (Parquet) → Silver (Delta) → Gold (Optimized Delta)
 
@@ -21,6 +20,7 @@ Integrates data from 4 APIs to analyze UK infrastructure across 3 UK regions:
 ## 🚀 Quick Start
 
 ### Setup
+
 ```bash
 # Create virtual environment
 python3 -m venv venv
@@ -35,6 +35,7 @@ cp .env.example .env
 ```
 
 ### Test APIs
+
 ```bash
 python notebooks/00_test_all_apis.py
 ```
@@ -58,27 +59,22 @@ Expected: ✅ All 4 APIs successful
 - **Language**: Python + SQL
 - **Version Control**: Git + GitHub
 
-## 🗺️ Regions
-
-| Region | Area | Expected Data |
-|--------|------|---------------|
-| Central London | 25 km² | ~8,000 elements |
-| Manchester Centre | 16 km² | ~5,000 elements |
-| Birmingham Centre | 16 km² | ~5,000 elements |
-
 ## 📊 Pipeline Layers
 
 ### 🥉 Bronze Layer
+
 - Raw API responses
 - Parquet format in Delta Lake
 - Partitioned by date & region
 
 ### 🥈 Silver Layer
+
 - Cleaned & validated data
 - Coordinate transformation (WGS84 → British National Grid)
 - Delta tables with enforced schemas
 
 ### 🥇 Gold Layer
+
 - Aggregated analytics
 - Cross-source correlations
 - Optimized for BI tools
@@ -96,11 +92,13 @@ Expected: ✅ All 4 APIs successful
 ## 🆘 Troubleshooting
 
 **API Test Fails?**
+
 - Check `.env` has OPENWEATHER_API_KEY
 - Verify internet connection
 - Activate virtual environment
 
 **Import Errors?**
+
 ```bash
 source venv/bin/activate
 pip install -r requirements.txt
