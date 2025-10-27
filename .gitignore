@@ -32,3 +32,15 @@ env/
 
 # Parquet files
 *.parquet
+
+# Databricks
+.databricks/
+databricks.log
+*.dbconfig
+
+# Databricks checkpoints
+*/_checkpoint/
+*/_delta_log/
+
+# Databricks local cache
+.dbx/
