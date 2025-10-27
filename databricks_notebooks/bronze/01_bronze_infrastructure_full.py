@@ -5,17 +5,23 @@
 # MAGIC **Converted from**: `notebooks/01_bronze_infrastructure_full.py`
 # MAGIC
 # MAGIC Collects infrastructure data (manholes, pipelines, cables) from Overpass API
+# MAGIC
+# MAGIC ## ⚠️ How to Run This Notebook
+# MAGIC
+# MAGIC 1. Run cells 1-3 (install + restart)
+# MAGIC 2. Wait for "Python interpreter will be restarted"
+# MAGIC 3. **Continue from cell 4 onwards** (run manually or "Run All Below")
+# MAGIC
+# MAGIC **Important:** After restart, you must manually continue!
 
 # COMMAND ----------
 # MAGIC %md
 # MAGIC ## Setup: Install Required Libraries
 
 # COMMAND ----------
-# Install required packages (only needed once per cluster, or use cluster libraries)
-%pip install pyarrow geopandas pyproj shapely scipy python-dotenv requests
+# MAGIC %pip install pyarrow geopandas pyproj shapely scipy python-dotenv requests
 
 # COMMAND ----------
-# Restart Python kernel to load new packages
 dbutils.library.restartPython()
 
 # COMMAND ----------
@@ -30,10 +36,29 @@ from pathlib import Path
 from datetime import datetime
 
 # Import Databricks configuration
-import sys
 sys.path.append('/Workspace/Repos/mnbabdullah765@yahoo.com/nuar_mini_project')
 
-from config.databricks_settings import *
+# Verify the path exists
+repo_path = '/Workspace/Repos/mnbabdullah765@yahoo.com/nuar_mini_project'
+if not os.path.exists(repo_path):
+    raise FileNotFoundError(f"Repository not found at: {repo_path}")
+
+print(f"✅ Repository found at: {repo_path}")
+
+# Try importing configuration
+try:
+    from config.databricks_settings import *
+    print(f"✅ Configuration loaded")
+except ImportError as e:
+    print(f"❌ Failed to import databricks_settings: {e}")
+    print(f"   Checking if config folder exists...")
+    config_path = f"{repo_path}/config"
+    if os.path.exists(config_path):
+        print(f"   ✅ Config folder exists")
+        print(f"   Contents: {os.listdir(config_path)}")
+    else:
+        print(f"   ❌ Config folder not found!")
+    raise
 
 # Import utilities
 from src.utils.api_client import OverpassClient, add_metadata
