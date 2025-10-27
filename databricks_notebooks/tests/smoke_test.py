@@ -3,6 +3,28 @@
 # MAGIC # Databricks Environment Smoke Test
 # MAGIC
 # MAGIC Validates that the Databricks environment is correctly configured
+# MAGIC
+# MAGIC ## ⚠️ How to Run This Notebook
+# MAGIC
+# MAGIC 1. Run cells 1-3 (install libraries + restart)
+# MAGIC 2. Wait for "Python interpreter will be restarted" message
+# MAGIC 3. Then run remaining cells (or click "Run All Below")
+# MAGIC
+# MAGIC **Note:** `restartPython()` stops execution - you must continue manually!
+
+# COMMAND ----------
+# MAGIC %md
+# MAGIC ## Setup: Install Required Libraries
+
+# COMMAND ----------
+# MAGIC %pip install geopandas pyproj shapely scipy python-dotenv requests pyarrow
+
+# COMMAND ----------
+dbutils.library.restartPython()
+
+# COMMAND ----------
+# MAGIC %md
+# MAGIC ## Run Tests
 
 # COMMAND ----------
 # Test 1: Catalog and Schema Setup
@@ -86,6 +108,15 @@ try:
     import sys
     sys.path.append('/Workspace/Repos/mnbabdullah765@yahoo.com/nuar_mini_project')
 
+    # Try importing dotenv first to check if restart worked
+    try:
+        from dotenv import load_dotenv
+        print("   ✅ python-dotenv available")
+    except ImportError:
+        print("   ⚠️  python-dotenv not found - did Python kernel restart?")
+        print("   💡 After running 'Restart Python' cell, run remaining cells manually!")
+        raise
+
     from config.databricks_settings import *
     print(f"✅ Configuration loaded")
     print(f"   Catalog: {CATALOG_NAME}")
@@ -93,6 +124,8 @@ try:
     print(f"   Silver schema: {SILVER_SCHEMA_FULL}")
 except Exception as e:
     print(f"❌ Configuration error: {e}")
+    if "dotenv" in str(e):
+        print(f"   💡 Tip: After 'Restart Python' cell, continue from next cell manually")
 
 # COMMAND ----------
 print("\n" + "="*60)
