@@ -15,20 +15,33 @@
 # MAGIC **Important:** After restart, you must manually continue!
 
 # COMMAND ----------
+
 # MAGIC %md
 # MAGIC ## Setup: Install Required Libraries
 
 # COMMAND ----------
+<<<<<<< HEAD
 # MAGIC %pip install pyarrow geopandas pyproj shapely scipy python-dotenv requests
 
 # COMMAND ----------
+=======
+
+# Install required packages (only needed once per cluster, or use cluster libraries)
+%pip install pyarrow geopandas pyproj shapely scipy python-dotenv requests
+
+# COMMAND ----------
+
+# Restart Python kernel to load new packages
+>>>>>>> 67836cd7576665e5054793724ec839d5328b3ffc
 dbutils.library.restartPython()
 
 # COMMAND ----------
+
 # MAGIC %md
 # MAGIC ## Import Configuration and Utilities
 
 # COMMAND ----------
+
 import sys
 import os
 import json
@@ -75,11 +88,14 @@ print("="*80)
 print(f"📅 Started: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
 
 # ============================================================================
+
 # COMMAND ----------
+
 # MAGIC %md
 # MAGIC ## Configuration
 
 # COMMAND ----------
+
 # ============================================================================
 
 # Load Stockport configuration
@@ -244,7 +260,7 @@ for record in flattened_data:
 
 print("3️⃣  Saving as Parquet...")
 
-parquet_path = # Save to local parquet first
+parquet_path = None  # Save to local parquet first
 parquet_path = save_to_bronze_parquet(
     flattened_data,
     str(BRONZE_DIR / 'parquet'),
@@ -298,13 +314,13 @@ print(f"⏱️  Completed: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
 print("="*80)
 
 # COMMAND ----------
+
 # MAGIC %md
 # MAGIC ## Verification
 
 # COMMAND ----------
+
 # Show data statistics
 print("="*80)
 print("Data Processing Complete! ✅")
 print("="*80)
-
-# COMMAND ----------
