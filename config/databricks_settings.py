@@ -93,34 +93,33 @@ OVERPASS_ENDPOINTS = [
 
 # Load Stockport config
 if IS_DATABRICKS:
-    # In Databricks, config file is in Repos
-    try:
-        with open('/Workspace/Repos/.../nuar_mini_project/config/stockport.json') as f:
-            STOCKPORT_CONFIG = json.load(f)
-    except:
-        # Fallback hardcoded config
-        STOCKPORT_CONFIG = {
-            'stockport': {
-                'bounding_box': {
-                    'south': 53.35,
-                    'west': -2.20,
-                    'north': 53.45,
-                    'east': -2.05
-                },
-                'center': {
-                    'lat': 53.40,
-                    'lon': -2.15
-                },
-                'infrastructure_focus': [
-                    'manhole',
-                    'pipeline',
-                    'power_cable',
-                    'cable',
-                    'duct',
-                    'utility_pole'
-                ]
-            }
+    # In Databricks, use hardcoded config (avoid path issues)
+    # The full config is embedded to ensure availability
+    STOCKPORT_CONFIG = {
+        'stockport': {
+            'name': 'Stockport',
+            'council': 'Stockport Metropolitan Borough Council',
+            'area_km2': 126.0,
+            'bounding_box': {
+                'south': 53.35,
+                'west': -2.20,
+                'north': 53.45,
+                'east': -2.05
+            },
+            'center': {
+                'lat': 53.40,
+                'lon': -2.15
+            },
+            'infrastructure_focus': [
+                'manhole',
+                'pipeline',
+                'power_cable',
+                'cable',
+                'duct',
+                'utility_pole'
+            ]
         }
+    }
 else:
     CONFIG_DIR = Path(__file__).parent
     with open(CONFIG_DIR / "stockport.json") as f:
@@ -308,15 +307,21 @@ __all__ = [
     'SILVER_DELTA_PATH',
     'GOLD_DELTA_PATH',
     'OVERPASS_ENDPOINT',
+    'OVERPASS_ENDPOINTS',
     'POLICE_API_BASE',
     'WEATHER_API_BASE',
     'POSTCODES_API_BASE',
+    'STOCKPORT_CONFIG',
     'STOCKPORT_BBOX',
     'STOCKPORT_CENTER',
     'STOCKPORT_INFRASTRUCTURE_TYPES',
     'BRONZE_TABLES',
     'SILVER_TABLES',
     'GOLD_TABLES',
+    'OVERPASS_TIMEOUT',
+    'POLICE_API_TIMEOUT',
+    'WEATHER_API_TIMEOUT',
+    'POSTCODES_API_TIMEOUT',
     'SOURCE_CRS',
     'TARGET_CRS',
     'get_table_path',
