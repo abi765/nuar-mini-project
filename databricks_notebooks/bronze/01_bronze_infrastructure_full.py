@@ -41,13 +41,17 @@ from pathlib import Path
 from datetime import datetime
 import getpass
 
-# Auto-detect repository path
+# Auto-detect repository path (handles both nuar_mini_project and nuar-mini-project)
 username = getpass.getuser()
 possible_paths = [
     f'/Repos/{username}/nuar_mini_project',
+    f'/Repos/{username}/nuar-mini-project',
     f'/Workspace/Repos/{username}/nuar_mini_project',
+    f'/Workspace/Repos/{username}/nuar-mini-project',
     '/Repos/mnbabdullah765@yahoo.com/nuar_mini_project',
+    '/Repos/mnbabdullah765@yahoo.com/nuar-mini-project',
     '/Workspace/Repos/mnbabdullah765@yahoo.com/nuar_mini_project',
+    '/Workspace/Repos/mnbabdullah765@yahoo.com/nuar-mini-project',
 ]
 
 repo_path = None

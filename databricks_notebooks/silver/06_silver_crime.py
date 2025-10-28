@@ -29,10 +29,36 @@ from pathlib import Path
 from datetime import datetime
 import pandas as pd
 import numpy as np
+import getpass
 
-# Import Databricks configuration
-import sys
-sys.path.append('/Workspace/Repos/mnbabdullah765@yahoo.com/nuar_mini_project')
+# Auto-detect repository path (handles both nuar_mini_project and nuar-mini-project)
+username = getpass.getuser()
+possible_paths = [
+    f'/Repos/{username}/nuar_mini_project',
+    f'/Repos/{username}/nuar-mini-project',
+    f'/Workspace/Repos/{username}/nuar_mini_project',
+    f'/Workspace/Repos/{username}/nuar-mini-project',
+    '/Repos/mnbabdullah765@yahoo.com/nuar_mini_project',
+    '/Repos/mnbabdullah765@yahoo.com/nuar-mini-project',
+    '/Workspace/Repos/mnbabdullah765@yahoo.com/nuar_mini_project',
+    '/Workspace/Repos/mnbabdullah765@yahoo.com/nuar-mini-project',
+]
+
+repo_path = None
+for path in possible_paths:
+    if os.path.exists(path):
+        repo_path = path
+        break
+
+if not repo_path:
+    print("❌ Repository not found. Tried these paths:")
+    for path in possible_paths:
+        print(f"   {path}")
+    print(f"\nCurrent directory: {os.getcwd()}")
+    raise FileNotFoundError("Could not find repository. Check that Repos are synced from GitHub.")
+
+print(f"✅ Repository found at: {repo_path}")
+sys.path.append(repo_path)
 
 from config.databricks_settings import *
 
