@@ -20,11 +20,6 @@
 # MAGIC ## Setup: Install Required Libraries
 
 # COMMAND ----------
-<<<<<<< HEAD
-# MAGIC %pip install pyarrow geopandas pyproj shapely scipy python-dotenv requests
-
-# COMMAND ----------
-=======
 
 # Install required packages (only needed once per cluster, or use cluster libraries)
 %pip install pyarrow geopandas pyproj shapely scipy python-dotenv requests
@@ -32,7 +27,6 @@
 # COMMAND ----------
 
 # Restart Python kernel to load new packages
->>>>>>> 67836cd7576665e5054793724ec839d5328b3ffc
 dbutils.library.restartPython()
 
 # COMMAND ----------
