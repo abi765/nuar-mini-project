@@ -1,0 +1,40 @@
+postcode,lat,lon,eastings,northings,admin_district,admin_county,admin_ward,parish,region,country,parliamentary_constituency,ingestion_timestamp,source_api,area,ingestion_date,postcode_type
+SK1 1EB,53.409982,-2.158064,389590,390362,Stockport,,Brinnington & Stockport Central,"Stockport, unparished area",North West,England,Stockport,2025-10-26T01:31:12.568365,postcodes_io,stockport,2025-10-26,full_postcode
+SK2 5DH,53.40185,-2.126389,391694,389453,Stockport,,Manor,"Stockport, unparished area",North West,England,Hazel Grove,2025-10-26T01:31:12.568370,postcodes_io,stockport,2025-10-26,full_postcode
+SK3 0SA,53.395495,-2.182087,387989,388754,Stockport,,Davenport & Cale Green,"Stockport, unparished area",North West,England,Stockport,2025-10-26T01:31:12.568375,postcodes_io,stockport,2025-10-26,full_postcode
+SK4 1AA,53.408836,-2.161806,389341,390235,Stockport,,Brinnington & Stockport Central,"Stockport, unparished area",North West,England,Stockport,2025-10-26T01:31:12.568380,postcodes_io,stockport,2025-10-26,full_postcode
+SK8 3AU,53.372898,-2.21402,385858,386246,Stockport,,Heald Green,"Stockport, unparished area",North West,England,Cheadle,2025-10-26T01:31:12.568384,postcodes_io,stockport,2025-10-26,full_postcode
+SK1 1EB,53.409982,-2.158064,389590,390362,Stockport,,Brinnington & Stockport Central,"Stockport, unparished area",North West,England,Stockport,2025-10-26T10:47:53.816203,postcodes_io,stockport,2025-10-26,full_postcode
+SK2 5DH,53.40185,-2.126389,391694,389453,Stockport,,Manor,"Stockport, unparished area",North West,England,Hazel Grove,2025-10-26T10:47:53.816215,postcodes_io,stockport,2025-10-26,full_postcode
+SK3 0SA,53.395495,-2.182087,387989,388754,Stockport,,Davenport & Cale Green,"Stockport, unparished area",North West,England,Stockport,2025-10-26T10:47:53.816223,postcodes_io,stockport,2025-10-26,full_postcode
+SK4 1AA,53.408836,-2.161806,389341,390235,Stockport,,Brinnington & Stockport Central,"Stockport, unparished area",North West,England,Stockport,2025-10-26T10:47:53.816235,postcodes_io,stockport,2025-10-26,full_postcode
+SK8 3AU,53.372898,-2.21402,385858,386246,Stockport,,Heald Green,"Stockport, unparished area",North West,England,Cheadle,2025-10-26T10:47:53.816244,postcodes_io,stockport,2025-10-26,full_postcode
+SK1,53.407660342629434,-2.1515800557768956,390021,390103,Stockport,,,,,England,,2025-10-26T01:31:12.568317,postcodes_io,stockport,2025-10-26,outward_code
+SK2,53.39434827195947,-2.132252427364864,391303,388619,Stockport,,,,,England,,2025-10-26T01:31:12.568327,postcodes_io,stockport,2025-10-26,outward_code
+SK3,53.39840555121952,-2.1720657577235785,388656,389076,Stockport,,,,,England,,2025-10-26T01:31:12.568333,postcodes_io,stockport,2025-10-26,outward_code
+SK4,53.41942999272717,-2.1818102460606075,388014,391417,Stockport,,,,,England,,2025-10-26T01:31:12.568339,postcodes_io,stockport,2025-10-26,outward_code
+SK5,53.43517353870964,-2.152470441935483,389968,393164,Stockport,,,,,England,,2025-10-26T01:31:12.568343,postcodes_io,stockport,2025-10-26,outward_code
+SK6,53.405134681284274,-2.0801766460454223,394767,389814,Stockport,,,,,England,,2025-10-26T01:31:12.568347,postcodes_io,stockport,2025-10-26,outward_code
+SK7,53.36851226275261,-2.143720022136671,390534,385747,Stockport,,,,,England,,2025-10-26T01:31:12.568353,postcodes_io,stockport,2025-10-26,outward_code
+SK8,53.37955425560534,-2.209073734678625,386189,386986,Stockport,,,,,England,,2025-10-26T01:31:12.568358,postcodes_io,stockport,2025-10-26,outward_code
+SK1,53.407660342629434,-2.1515800557768956,390021,390103,Stockport,,,,,England,,2025-10-26T10:47:53.816121,postcodes_io,stockport,2025-10-26,outward_code
+SK2,53.39434827195947,-2.132252427364864,391303,388619,Stockport,,,,,England,,2025-10-26T10:47:53.816142,postcodes_io,stockport,2025-10-26,outward_code
+SK3,53.39840555121952,-2.1720657577235785,388656,389076,Stockport,,,,,England,,2025-10-26T10:47:53.816152,postcodes_io,stockport,2025-10-26,outward_code
+SK4,53.41942999272717,-2.1818102460606075,388014,391417,Stockport,,,,,England,,2025-10-26T10:47:53.816162,postcodes_io,stockport,2025-10-26,outward_code
+SK5,53.43517353870964,-2.152470441935483,389968,393164,Stockport,,,,,England,,2025-10-26T10:47:53.816169,postcodes_io,stockport,2025-10-26,outward_code
+SK6,53.405134681284274,-2.0801766460454223,394767,389814,Stockport,,,,,England,,2025-10-26T10:47:53.816177,postcodes_io,stockport,2025-10-26,outward_code
+SK7,53.36851226275261,-2.143720022136671,390534,385747,Stockport,,,,,England,,2025-10-26T10:47:53.816185,postcodes_io,stockport,2025-10-26,outward_code
+SK8,53.37955425560534,-2.209073734678625,386189,386986,Stockport,,,,,England,,2025-10-26T10:47:53.816194,postcodes_io,stockport,2025-10-26,outward_code
+SK1 1EB,53.409982,-2.158064,389590,390362,Stockport,,Brinnington & Stockport Central,"Stockport, unparished area",North West,England,Stockport,2025-10-28T15:56:44.530292,postcodes_io,stockport,2025-10-28,full_postcode
+SK2 5DH,53.40185,-2.126389,391694,389453,Stockport,,Manor,"Stockport, unparished area",North West,England,Hazel Grove,2025-10-28T15:56:44.530300,postcodes_io,stockport,2025-10-28,full_postcode
+SK3 0SA,53.395495,-2.182087,387989,388754,Stockport,,Davenport & Cale Green,"Stockport, unparished area",North West,England,Stockport,2025-10-28T15:56:44.530307,postcodes_io,stockport,2025-10-28,full_postcode
+SK4 1AA,53.408836,-2.161806,389341,390235,Stockport,,Brinnington & Stockport Central,"Stockport, unparished area",North West,England,Stockport,2025-10-28T15:56:44.530312,postcodes_io,stockport,2025-10-28,full_postcode
+SK8 3AU,53.372898,-2.21402,385858,386246,Stockport,,Heald Green,"Stockport, unparished area",North West,England,Cheadle,2025-10-28T15:56:44.530317,postcodes_io,stockport,2025-10-28,full_postcode
+SK1,53.407660342629434,-2.1515800557768956,390021,390103,Stockport,,,,,England,,2025-10-28T15:56:44.530227,postcodes_io,stockport,2025-10-28,outward_code
+SK2,53.39434827195947,-2.132252427364864,391303,388619,Stockport,,,,,England,,2025-10-28T15:56:44.530243,postcodes_io,stockport,2025-10-28,outward_code
+SK3,53.39840555121952,-2.1720657577235785,388656,389076,Stockport,,,,,England,,2025-10-28T15:56:44.530254,postcodes_io,stockport,2025-10-28,outward_code
+SK4,53.41942999272717,-2.1818102460606075,388014,391417,Stockport,,,,,England,,2025-10-28T15:56:44.530261,postcodes_io,stockport,2025-10-28,outward_code
+SK5,53.43517353870964,-2.152470441935483,389968,393164,Stockport,,,,,England,,2025-10-28T15:56:44.530267,postcodes_io,stockport,2025-10-28,outward_code
+SK6,53.405134681284274,-2.0801766460454223,394767,389814,Stockport,,,,,England,,2025-10-28T15:56:44.530273,postcodes_io,stockport,2025-10-28,outward_code
+SK7,53.36851226275261,-2.143720022136671,390534,385747,Stockport,,,,,England,,2025-10-28T15:56:44.530279,postcodes_io,stockport,2025-10-28,outward_code
+SK8,53.37955425560534,-2.209073734678625,386189,386986,Stockport,,,,,England,,2025-10-28T15:56:44.530285,postcodes_io,stockport,2025-10-28,outward_code
