@@ -7,6 +7,9 @@ data/sample/stockport/
 # Keep sample API test results
 !data/sample/api_test_results.json
 
+# Zip archives for manual upload
+*.zip
+
 # Python
 __pycache__/
 *.pyc
