@@ -30,42 +30,41 @@
 dbutils.library.restartPython()
 
 # COMMAND ----------
-
-# Get the path of the current notebook (always works)
-import os
-current_notebook_path = os.getcwd()  # current working directory in the cluster
-
-# If your repo is mounted in /Workspace/Repos/<user>/nuar_mini_project
-repo_path = f"{current_notebook_path}/.."  # adjust relative to notebook
-
-print(f"✅ Using repo path: {repo_path}")
-
-import sys
-sys.path.append(os.path.join(repo_path, "src"))
-sys.path.append(os.path.join(repo_path, "config"))
-
-# COMMAND ----------
-
 # MAGIC %md
 # MAGIC ## Import Configuration and Utilities
 
 # COMMAND ----------
-
 import sys
 import os
 import json
 from pathlib import Path
 from datetime import datetime
+import getpass
 
-# Import Databricks configuration
-sys.path.append('/Workspace/Repos/mnbabdullah765@yahoo.com/nuar_mini_project')
+# Auto-detect repository path
+username = getpass.getuser()
+possible_paths = [
+    f'/Repos/{username}/nuar_mini_project',
+    f'/Workspace/Repos/{username}/nuar_mini_project',
+    '/Repos/mnbabdullah765@yahoo.com/nuar_mini_project',
+    '/Workspace/Repos/mnbabdullah765@yahoo.com/nuar_mini_project',
+]
 
-# Verify the path exists
-repo_path = '/Workspace/Repos/mnbabdullah765@yahoo.com/nuar_mini_project'
-if not os.path.exists(repo_path):
-    raise FileNotFoundError(f"Repository not found at: {repo_path}")
+repo_path = None
+for path in possible_paths:
+    if os.path.exists(path):
+        repo_path = path
+        break
+
+if not repo_path:
+    print("❌ Repository not found. Tried these paths:")
+    for path in possible_paths:
+        print(f"   {path}")
+    print(f"\nCurrent directory: {os.getcwd()}")
+    raise FileNotFoundError("Could not find repository. Check that Repos are synced from GitHub.")
 
 print(f"✅ Repository found at: {repo_path}")
+sys.path.append(repo_path)
 
 # Try importing configuration
 try:
