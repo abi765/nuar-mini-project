@@ -31,6 +31,21 @@ dbutils.library.restartPython()
 
 # COMMAND ----------
 
+# Get the path of the current notebook (always works)
+import os
+current_notebook_path = os.getcwd()  # current working directory in the cluster
+
+# If your repo is mounted in /Workspace/Repos/<user>/nuar_mini_project
+repo_path = f"{current_notebook_path}/.."  # adjust relative to notebook
+
+print(f"✅ Using repo path: {repo_path}")
+
+import sys
+sys.path.append(os.path.join(repo_path, "src"))
+sys.path.append(os.path.join(repo_path, "config"))
+
+# COMMAND ----------
+
 # MAGIC %md
 # MAGIC ## Import Configuration and Utilities
 
