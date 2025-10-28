@@ -81,9 +81,24 @@ print(f"📅 Started: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
 # COMMAND ----------
 # ============================================================================
 
-BRONZE_DIR = project_root / 'data' / 'bronze' / 'stockport' / 'weather'
-SILVER_DIR = project_root / 'data' / 'silver' / 'stockport' / 'weather'
-SILVER_DIR.mkdir(parents=True, exist_ok=True)
+# Paths
+if IS_DATABRICKS:
+    # Use DBFS paths in Databricks
+    BRONZE_DIR = f"{BRONZE_BASE_PATH}/stockport/weather"
+    SILVER_DIR = f"{SILVER_BASE_PATH}/stockport/weather"
+
+    # Create Silver directory
+    dbutils.fs.mkdirs(SILVER_DIR)
+
+    # Convert to local paths for Python operations
+    BRONZE_DIR = BRONZE_DIR.replace('dbfs:', '/dbfs')
+    SILVER_DIR = SILVER_DIR.replace('dbfs:', '/dbfs')
+else:
+    # Use local paths for development
+    from pathlib import Path
+    BRONZE_DIR = Path(BRONZE_BASE_PATH) / 'stockport' / 'weather'
+    SILVER_DIR = Path(SILVER_BASE_PATH) / 'stockport' / 'weather'
+    SILVER_DIR.mkdir(parents=True, exist_ok=True)
 
 # ============================================================================
 # LOAD & TRANSFORM

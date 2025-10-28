@@ -88,12 +88,28 @@ print(f"📅 Started: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
 # ============================================================================
 
 # Paths
-BRONZE_DIR = project_root / 'data' / 'bronze' / 'stockport' / 'crime'
-SILVER_DIR = project_root / 'data' / 'silver' / 'stockport' / 'crime'
-POSTCODE_DIR = project_root / 'data' / 'bronze' / 'stockport' / 'postcodes'
+if IS_DATABRICKS:
+    # Use DBFS paths in Databricks
+    BRONZE_DIR = f"{BRONZE_BASE_PATH}/stockport/crime"
+    SILVER_DIR = f"{SILVER_BASE_PATH}/stockport/crime"
+    POSTCODE_DIR = f"{BRONZE_BASE_PATH}/stockport/postcodes"
 
-# Create Silver directory
-SILVER_DIR.mkdir(parents=True, exist_ok=True)
+    # Create Silver directory
+    dbutils.fs.mkdirs(SILVER_DIR)
+
+    # Convert to local paths for Python operations
+    BRONZE_DIR = BRONZE_DIR.replace('dbfs:', '/dbfs')
+    SILVER_DIR = SILVER_DIR.replace('dbfs:', '/dbfs')
+    POSTCODE_DIR = POSTCODE_DIR.replace('dbfs:', '/dbfs')
+else:
+    # Use local paths for development
+    from pathlib import Path
+    BRONZE_DIR = Path(BRONZE_BASE_PATH) / 'stockport' / 'crime'
+    SILVER_DIR = Path(SILVER_BASE_PATH) / 'stockport' / 'crime'
+    POSTCODE_DIR = Path(BRONZE_BASE_PATH) / 'stockport' / 'postcodes'
+
+    # Create Silver directory
+    SILVER_DIR.mkdir(parents=True, exist_ok=True)
 
 print(f"📂 Bronze Input: {BRONZE_DIR}")
 print(f"📂 Silver Output: {SILVER_DIR}")

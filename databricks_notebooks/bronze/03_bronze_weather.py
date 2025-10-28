@@ -112,8 +112,16 @@ print("✅ API Key loaded from .env")
 print()
 
 # Output directories
-BRONZE_DIR = project_root / 'data' / 'bronze' / 'stockport' / 'weather'
-os.makedirs(BRONZE_DIR, exist_ok=True)
+if IS_DATABRICKS:
+    # Use DBFS path in Databricks
+    BRONZE_DIR = f"{BRONZE_BASE_PATH}/stockport/weather"
+    dbutils.fs.mkdirs(BRONZE_DIR)
+    BRONZE_DIR = BRONZE_DIR.replace('dbfs:', '/dbfs')  # Convert to local path for Python operations
+else:
+    # Use local path for development
+    from pathlib import Path
+    BRONZE_DIR = Path(BRONZE_BASE_PATH) / 'stockport' / 'weather'
+    os.makedirs(BRONZE_DIR, exist_ok=True)
 
 print(f"💾 Output Directory: {BRONZE_DIR}")
 print()

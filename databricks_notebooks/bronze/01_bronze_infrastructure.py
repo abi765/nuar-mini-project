@@ -30,12 +30,10 @@
 dbutils.library.restartPython()
 
 # COMMAND ----------
-
 # MAGIC %md
 # MAGIC ## Import Configuration and Utilities
 
 # COMMAND ----------
-
 import sys
 import os
 import json
@@ -142,12 +140,20 @@ for i_type in INFRASTRUCTURE_TYPES:
 print()
 
 # Output directories
-BRONZE_DIR = project_root / 'data' / 'bronze' / 'stockport' / 'infrastructure'
-os.makedirs(BRONZE_DIR, exist_ok=True)
+if IS_DATABRICKS:
+    # Use DBFS path in Databricks
+    BRONZE_DIR = f"{BRONZE_BASE_PATH}/stockport/infrastructure"
+    dbutils.fs.mkdirs(BRONZE_DIR)
+    BRONZE_DIR = BRONZE_DIR.replace('dbfs:', '/dbfs')  # Convert to local path for Python operations
+else:
+    # Use local path for development
+    from pathlib import Path
+    BRONZE_DIR = Path(BRONZE_BASE_PATH) / 'stockport' / 'infrastructure'
+    os.makedirs(BRONZE_DIR, exist_ok=True)
 
 print(f"💾 Output Directory: {BRONZE_DIR}")
 print()
-Cahnge the name 
+
 # ============================================================================
 # DATA COLLECTION
 # ============================================================================
