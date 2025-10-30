@@ -125,13 +125,17 @@ print("📥 LOADING BRONZE DATA")
 print("="*80)
 print()
 
-print("1️⃣  Loading infrastructure...")
-df_infra = pd.read_parquet(BRONZE_DIR / 'parquet' / 'infrastructure_stockport')
+print("1️⃣  Loading infrastructure from Unity Catalog...")
+# Read from Unity Catalog managed table instead of filesystem
+df_infra_spark = spark.table("nuar_catalog.bronze.infrastructure")
+df_infra = df_infra_spark.toPandas()
 print(f"   ✅ Loaded {len(df_infra)} infrastructure records")
 print()
 
 print("2️⃣  Loading postcodes (for enrichment)...")
-df_postcode = pd.read_parquet(POSTCODE_DIR / 'parquet' / 'postcodes_stockport')
+# Read from Unity Catalog managed table
+df_postcode_spark = spark.table("nuar_catalog.bronze.postcodes")
+df_postcode = df_postcode_spark.toPandas()
 print(f"   ✅ Loaded {len(df_postcode)} postcode records")
 print()
 
@@ -429,27 +433,24 @@ print("💾 SAVING SILVER DATA")
 print("="*80)
 print()
 
-# Save as Parquet with partitioning
-output_path = SILVER_DIR / 'parquet' / 'infrastructure_cleaned'
-df_silver.to_parquet(
-    output_path,
-    partition_cols=['transformation_date', 'infrastructure_type'],
-    engine='pyarrow',
-    compression='snappy',
-    index=False
-)
-
-print(f"✅ Saved to: {output_path}")
-print(f"   Records: {len(df_silver)}")
-print(f"   Columns: {len(df_silver.columns)}")
-print(f"   Partitioned by: transformation_date, infrastructure_type")
+# Save to Unity Catalog managed table
+print("💾 Saving to Unity Catalog managed table...")
 print()
 
-# Also save summary CSV for easy viewing
-summary_path = SILVER_DIR / 'infrastructure_silver_summary.csv'
-df_silver[['id', 'infrastructure_type', 'lat', 'lon', 'easting_bng', 'northing_bng',
-           'postcode', 'admin_district', 'quality_tier']].to_csv(summary_path, index=False)
-print(f"✅ Summary CSV: {summary_path}")
+# Convert back to Spark DataFrame
+df_silver_spark = spark.createDataFrame(df_silver)
+
+# Create or replace Silver table
+table_name = "nuar_catalog.silver.infrastructure"
+df_silver_spark.write.format("delta") \
+    .mode("overwrite") \
+    .option("overwriteSchema", "true") \
+    .saveAsTable(table_name)
+
+print(f"✅ Saved to: {table_name}")
+print(f"   Records: {len(df_silver)}")
+print(f"   Columns: {len(df_silver.columns)}")
+print(f"   Storage: Unity Catalog managed (not DBFS)")
 print()
 
 # ============================================================================

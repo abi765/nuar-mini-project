@@ -104,8 +104,9 @@ else:
 # LOAD & TRANSFORM
 # ============================================================================
 
-print("📥 Loading Bronze weather data...")
-df_weather = pd.read_parquet(BRONZE_DIR / 'parquet' / 'weather_stockport')
+print("📥 Loading Bronze weather data from Unity Catalog...")
+df_weather_spark = spark.table("nuar_catalog.bronze.weather")
+df_weather = df_weather_spark.toPandas()
 print(f"   ✅ Loaded {len(df_weather)} weather snapshots\n")
 
 print("🗺️  Adding BNG coordinates...")
@@ -121,15 +122,20 @@ df_weather = add_audit_columns(df_weather, 'openweather_api', 'silver')
 # SAVE
 # ============================================================================
 
-print("\n💾 Saving Silver weather...")
-output_path = SILVER_DIR / 'parquet' / 'weather_cleaned'
+print("\n💾 Saving to Unity Catalog managed table...")
 
-# Create parquet directory if it doesn't exist
-output_path.parent.mkdir(parents=True, exist_ok=True)
+# Convert back to Spark DataFrame
+df_weather_spark = spark.createDataFrame(df_weather)
 
-df_weather.to_parquet(output_path, engine='pyarrow', compression='snappy', index=False)
+# Create or replace Silver table
+table_name = "nuar_catalog.silver.weather"
+df_weather_spark.write.format("delta") \
+    .mode("overwrite") \
+    .option("overwriteSchema", "true") \
+    .saveAsTable(table_name)
 
-print(f"✅ Saved {len(df_weather)} records to: {output_path}")
+print(f"✅ Saved {len(df_weather)} records to: {table_name}")
+print(f"   Storage: Unity Catalog managed (not DBFS)")
 print(f"\n⏱️  Completed: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
 print("="*80)
 
