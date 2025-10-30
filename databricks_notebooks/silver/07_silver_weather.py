@@ -119,6 +119,25 @@ print("\n📋 Adding audit columns...")
 df_weather = add_audit_columns(df_weather, 'openweather_api', 'silver')
 
 # ============================================================================
+# TRANSFORMATION X: DEDUPLICATE RECORDS
+# ============================================================================
+
+print("="*80)
+print("🧹 TRANSFORMATION X: Deduplicate Records")
+print("="*80)
+print()
+
+# Deduplicate based on unique identifiers or relevant columns
+before_dedup = len(df_weather)
+df_weather = df_weather.drop_duplicates(subset=['weather_id'], keep='first')  # adjust subset as needed
+after_dedup = len(df_weather)
+
+print(f"   Records before deduplication: {before_dedup}")
+print(f"   Records after deduplication:  {after_dedup}")
+print(f"   Removed duplicates:           {before_dedup - after_dedup}")
+print()
+
+# ============================================================================
 # SAVE
 # ============================================================================
 

@@ -381,6 +381,26 @@ print("✅ Data types enforced")
 print()
 
 # ============================================================================
+# TRANSFORMATION X: DEDUPLICATE RECORDS
+# ============================================================================
+
+print("="*80)
+print("🧹 TRANSFORMATION X: Deduplicate Records")
+print("="*80)
+print()
+
+# Deduplicate based on unique identifiers or relevant columns
+# For example, 'id' or combination of ['id', 'easting_bng', 'northing_bng']
+before_dedup = len(df_silver)
+df_silver = df_silver.drop_duplicates(subset=['crime_id'], keep='first')  # adjust subset as needed
+after_dedup = len(df_silver)
+
+print(f"   Records before deduplication: {before_dedup}")
+print(f"   Records after deduplication:  {after_dedup}")
+print(f"   Removed duplicates:           {before_dedup - after_dedup}")
+print()
+
+# ============================================================================
 # SAVE SILVER DATA
 # ============================================================================
 
