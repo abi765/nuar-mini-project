@@ -99,7 +99,7 @@ df_density = df_grid.groupBy(
     "infrastructure_type"
 ).agg(
     F.count("*").alias("infrastructure_count"),
-    F.avg("quality_score").alias("avg_quality_score"),
+    F.avg("metadata_quality_score").alias("avg_quality_score"),
     F.collect_set("quality_tier").alias("quality_tiers")
 )
 
@@ -140,7 +140,7 @@ print()
 df_stats = df_grid.groupBy("infrastructure_type").agg(
     F.count("*").alias("total_count"),
     F.countDistinct("grid_cell_id").alias("grid_cells_covered"),
-    F.avg("quality_score").alias("avg_quality"),
+    F.avg("metadata_quality_score").alias("avg_quality"),
     F.sum(F.when(F.col("quality_tier") == "high", 1).otherwise(0)).alias("high_quality_count"),
     F.sum(F.when(F.col("quality_tier") == "medium", 1).otherwise(0)).alias("medium_quality_count"),
     F.sum(F.when(F.col("quality_tier") == "basic", 1).otherwise(0)).alias("basic_quality_count")
