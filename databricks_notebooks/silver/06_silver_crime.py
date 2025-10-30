@@ -455,9 +455,8 @@ print(f"   Transformed to BNG: {bng_valid}")
 print(f"   Enriched with postcodes: {enriched}")
 print()
 
-print(f"💾 Output Location: {SILVER_DIR}")
-print(f"   1. Parquet: {output_path}")
-print(f"   2. Summary CSV: {summary_path}")
+print(f"💾 Output Location: nuar_catalog.silver.crime")
+print(f"   Storage: Unity Catalog managed table")
 print()
 
 print(f"⏱️  Completed: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
